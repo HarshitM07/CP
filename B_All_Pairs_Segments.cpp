@@ -32,129 +32,70 @@ template<typename typC> ostream &operator<<(ostream &cout,const vector<typC> &a)
 // =================================== END Of the input module ==========================================
 
 
-// int f(unordered_map<int, int>& mpp, int target) {
-//     int count = 0;
+int f(unordered_map<int, int>& mpp, int target) {
+    int count = 0;
     
-//     for (const auto& pair : mpp) {
-//         if (pair.second == target) {
-//             count++; 
-//         }
-//     }
-//     return count;
-// }
-// int32_t main() {
-//     ios_base::sync_with_stdio(false);
-//     cin.tie(NULL);
-
-//     int t;
-//     cin>>t;
-//     while(t--){
-//         int n, q;
-//         cin>>n>>q;
-
-//         vector<int>arr(n);
-//         for(int i = 0; i<n; i++){
-//             cin>>arr[i];
-//         }
-
-//         vector<int>k(q);
-//         for(int i = 0; i<q; i++){
-//             cin>>k[i];
-//         }
-
-//         vector<pair<int,int>>segments;
-
-//         for(int i = 0; i<n; i++){
-//             for(int j = i+1; j<n; j++){
-//                 segments.push_back({arr[i], arr[j]});
-//             }
-//         }
-
-//         int totalseg = segments.size();
-
-//         int totpts = arr[n-1]-arr[0]+1;
-
-//         unordered_map<int,int>mpp;
-
-//         for(int i = arr[0]; i<=arr[n-1]; i++){
-//             for(auto it : segments){
-//                 if(i>=it.first && i<=it.second){
-//                     mpp[i]++;
-//                 }
-//             }
-//         }
-
-//         vector<int>ans(q, 0);
-
-//         for(int i = 0; i<q; i++){
-//             int target = k[i];
-//             int count  = f(mpp, target);
-
-//             if(count>0) ans[i] = count;
-//         }
-
-//         for(auto it : ans){
-//             cout<<it<<" ";
-//         }
-//         cout<<endl;
-//     }
-// }
-
+    for (const auto& pair : mpp) {
+        if (pair.second == target) {
+            count++; 
+        }
+    }
+    return count;
+}
 int32_t main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
 
     int t;
-    cin >> t;
-    while (t--) {
+    cin>>t;
+    while(t--){
         int n, q;
-        cin >> n >> q;
+        cin>>n>>q;
 
-        vector<int> arr(n);
-        for (int i = 0; i < n; i++) {
-            cin >> arr[i];
+        vector<int>arr(n);
+        for(int i = 0; i<n; i++){
+            cin>>arr[i];
         }
 
-        vector<int> k(q);
-        for (int i = 0; i < q; i++) {
-            cin >> k[i];
+        vector<int>k(q);
+        for(int i = 0; i<q; i++){
+            cin>>k[i];
         }
 
-        // Create a difference array to count the number of segments containing each point
-        unordered_map<int, int> diff;
+        vector<pair<int,int>>segments;
 
-        for (int i = 0; i < n; i++) {
-            for (int j = i + 1; j < n; j++) {
-                // Each segment starts from arr[i] and ends at arr[j]
-                diff[arr[i]]++;       // Mark the start of the segment
-                diff[arr[j] + 1]--;   // Mark the end of the segment (exclusive)
+        for(int i = 0; i<n; i++){
+            for(int j = i+1; j<n; j++){
+                segments.push_back({arr[i], arr[j]});
             }
         }
 
-        // Convert the difference array into a prefix sum array
-        unordered_map<int, int> count;
-        int current_count = 0;
+        int totalseg = segments.size();
 
-        for (int i = arr[0]; i <= arr[n - 1]; i++) {
-            if (diff.find(i) != diff.end()) {
-                current_count += diff[i]; // Apply the difference at point i
-            }
-            count[i] = current_count; // Store the result
-        }
+        int totpts = arr[n-1]-arr[0]+1;
 
-        // Answer the queries
-        vector<int> ans(q, 0);
-        for (int i = 0; i < q; i++) {
-            if (count.find(k[i]) != count.end()) {
-                ans[i] = count[k[i]];
-            } else {
-                ans[i] = 0; // If the point is outside the range, answer is 0
+        unordered_map<int,int>mpp;
+
+        for(int i = arr[0]; i<=arr[n-1]; i++){
+            for(auto it : segments){
+                if(i>=it.first && i<=it.second){
+                    mpp[i]++;
+                }
             }
         }
 
-        for (auto it : ans) {
-            cout << it << " ";
+        vector<int>ans(q, 0);
+
+        for(int i = 0; i<q; i++){
+            int target = k[i];
+            int count  = f(mpp, target);
+
+            if(count>0) ans[i] = count;
         }
-        cout << endl;
+
+        for(auto it : ans){
+            cout<<it<<" ";
+        }
+        cout<<endl;
     }
 }

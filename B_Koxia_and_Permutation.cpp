@@ -32,15 +32,15 @@ template<typename typC> ostream &operator<<(ostream &cout,const vector<typC> &a)
 // =================================== END Of the input module ==========================================
 
 int operation(const vector<int>& perm, int k, int n) {
-    int maxi = LLONG_MIN;  // Use LLONG_MIN for long long
-    for (int i = 0; i <= n - k; i++) {  // Fix the indexing to 0-based
+    int maxi = LLONG_MIN;  
+    for (int i = 0; i <= n - k; i++) {  
         int maxi1 = -1e9;
         int mini1 = 1e9;
-        for (int j = i; j < i + k; j++) {  // 0-based indexing, j should be in [i, i+k-1]
+        for (int j = i; j < i + k; j++) {  
             maxi1 = max(maxi1, perm[j]);
             mini1 = min(mini1, perm[j]);
         }
-        maxi = max(maxi, maxi1 + mini1);  // Track maximum value of (maxi1 + mini1)
+        maxi = max(maxi, maxi1 + mini1);  
     }
     return maxi;
 }
